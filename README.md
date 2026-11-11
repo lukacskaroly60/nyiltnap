@@ -24,6 +24,7 @@ Nyisd meg az `index.html` fájlt böngészőben (internet nélkül is működik,
 5. Erasmus+ „Discover the Green Life with Robots” (Isztambul, 2024 / Székesfehérvár, 2025)
 6. Országos 3D Hídépítő Verseny (2026. november 20., BGSZC Mechatronikai Technikum)
 7. HARMAN Hackathon (2026. november 13–14., Székesfehérvár)
-8. Zárás
+8. Plakátok: HARMAN Hackathon (hivatalos) és a hídverseny felhívása plakát formában
+9. Zárás
 
 A képek az `img/` mappában vannak, kivetítéshez 1600 px-re kicsinyítve.

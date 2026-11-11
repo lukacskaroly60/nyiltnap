@@ -142,6 +142,30 @@ body.presenting .hud{opacity:.25;transition:opacity .2s}
 body.presenting .hud:hover{opacity:1}
 .help{font:500 .65em/1.4 var(--mono);color:var(--muted)}
 @media (max-width:899px){.help{display:none}}
+
+/* plakátok dia */
+.posters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.5vw,40px);align-items:stretch;max-width:1200px}
+@media (max-width:700px){.posters{grid-template-columns:1fr}}
+.posters figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.posters figcaption{font:500 .62em/1.4 var(--mono);color:var(--muted)}
+.posters img{width:100%;height:auto;border-radius:4px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+@media (min-width:900px){.posters img,.bridge-poster{height:72vh;width:auto;max-width:100%;margin-inline:auto}}
+.bridge-poster{aspect-ratio:1759/2486;background:#f4f7fb;color:#0b1b33;border-radius:4px;box-shadow:0 12px 40px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;overflow:hidden;font-family:var(--body);max-width:100%}
+.bp-top{background:#0b1b33;color:#fff;padding:7% 7% 6%;display:flex;flex-direction:column;gap:.35em;position:relative}
+.bp-top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:10%;background:repeating-linear-gradient(135deg,#ff7a2f 0 12px,transparent 12px 24px);opacity:.9}
+.bp-kicker{font:700 clamp(9px,.75vw,14px)/1 var(--mono);letter-spacing:.14em;color:#4fd2ff}
+.bp-title{font:900 clamp(26px,3.3vw,60px)/.92 var(--display);font-stretch:125%;text-transform:uppercase;margin:0}
+.bp-title span{color:#ff7a2f}
+.bp-sub{font:800 clamp(11px,1vw,18px)/1.15 var(--display);font-stretch:112%;text-transform:uppercase}
+.bp-body{padding:6% 7%;display:flex;flex-direction:column;gap:5%;flex:1;font-size:clamp(9px,.82vw,15px);line-height:1.35}
+.bp-date{font:900 clamp(18px,2vw,36px)/1 var(--display);font-stretch:112%;color:#ff7a2f}
+.bp-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4%}
+.bp-row b{display:block;font:700 .8em/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#3a5a8c}
+.bp-prizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3%;text-align:center}
+.bp-prizes div{border:2px solid #0b1b33;border-radius:4px;padding:5% 2%}
+.bp-prizes strong{display:block;font:900 1.25em/1 var(--display);font-stretch:112%}
+.bp-foot{margin-top:auto;font-size:.82em;color:#3a5a8c;border-top:1px solid #c9d6ea;padding-top:4%}
 </style>
 </head>
 <body>
@@ -339,7 +363,45 @@ body.presenting .hud:hover{opacity:1}
   <aside class="notes"><b>8:15–9:15</b> Két nap múlva indul. 24 óra alatt kell ötletből működő prototípust építeni. Itt jön ki igazán, mire jó a szakkör: Arduino, 3D nyomtatott ház, csapatmunka.</aside>
 </section>
 
-<!-- 8. ZÁRÁS -->
+<!-- 8. PLAKÁTOK -->
+<section class="slide" id="plakatok">
+  <span class="eyebrow">Országos versenyek · plakátok</span>
+  <div class="posters">
+    <figure>
+      <div class="bridge-poster" role="img" aria-label="A VII. Országos 3D Hídépítő Verseny felhívása plakátként">
+        <div class="bp-top">
+          <span class="bp-kicker">BUDAPESTI GÉPÉSZETI SZC · MECHATRONIKAI TECHNIKUM</span>
+          <p class="bp-title">Nyomtass <span>hidat!</span></p>
+          <span class="bp-sub">VII. Országos 3D Hídépítő Verseny</span>
+        </div>
+        <div class="bp-body">
+          <div><div class="bp-date">2026. november 20. · 10:00</div>1118 Budapest, Rétköz utca 39.</div>
+          <p>Kétfős diákcsapatok a szervezőktől kapott <b>500 g PLA</b> filamentből 3D-nyomtatással építenek hidat. Ragasztani tilos, a helyszínen kell összeszerelni. Az a híd nyer, amelyik a legnagyobb terhelést bírja.</p>
+          <div class="bp-row">
+            <div><b>Tömeg</b>max. 250 g</div>
+            <div><b>Fesztáv</b>500 mm (hossz ≤ 550 mm)</div>
+            <div><b>Magasság</b>max. 300 mm</div>
+            <div><b>Szélesség</b>60–100 mm</div>
+          </div>
+          <div class="bp-prizes">
+            <div><strong>I.</strong>100 000 Ft</div>
+            <div><strong>II.</strong>50 000 Ft</div>
+            <div><strong>III.</strong>30 000 Ft</div>
+          </div>
+          <div class="bp-foot">Támogatók: FESTO, FANUC Hungary, 3Dee Technologies Hungary, Enterprise Group Technologies, BGéSZC · Szakmai partner: Óbudai Egyetem</div>
+        </div>
+      </div>
+      <figcaption>A hivatalos felhívás szövegéből (mechatronika.hu). Képes plakátot a szervező nem tett közzé.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/harman-hackathon-plakat.jpg" alt="A HARMAN Hackathon Junior Engineers Camp hivatalos plakátja: Alkoss szabadon!" loading="lazy">
+      <figcaption>Hivatalos plakát (harmanhackathon.amk.uni-obuda.hu)</figcaption>
+    </figure>
+  </div>
+  <aside class="notes"><b>9:15–9:30</b> A két verseny plakátja. Hídverseny: a díj 100 ezer Ft-os vásárlási utalvány, és a szervezőktől kapott 500 g PLA-ból kell dolgozni. HARMAN: „Alkoss szabadon!”, JBL és HARMAN/KARDON nyeremények.</aside>
+</section>
+
+<!-- 9. ZÁRÁS -->
 <section class="slide cta" id="csatlakozz">
   <span class="eyebrow">Gyere közénk</span>
   <h2>Hozd az ötleted,<br><span class="hl">a többit megtanuljuk</span></h2>
@@ -355,12 +417,12 @@ body.presenting .hud:hover{opacity:1}
     <figure><img src="img/szakkor-gepterem.jpg" alt="Szakkör a gépteremben" loading="lazy" style="aspect-ratio:16/9"><figcaption>Szakkör</figcaption></figure>
   </div>
   <p class="speaker"><b>Lukács Károly</b>Keressetek a nyílt nap után is, szívesen megmutatom a műhelyt!</p>
-  <aside class="notes"><b>9:15–10:00</b> Kérdések. Meghívás: a nyílt nap után meg lehet nézni a műhelyt és a nyomtatókat.</aside>
+  <aside class="notes"><b>9:30–10:00</b> Kérdések. Meghívás: a nyílt nap után meg lehet nézni a műhelyt és a nyomtatókat.</aside>
 </section>
 
 <nav class="hud" aria-label="Vezérlés">
   <button type="button" id="prev" aria-label="Előző dia">←</button>
-  <span class="count" id="count">1 / 8</span>
+  <span class="count" id="count">1 / 9</span>
   <button type="button" id="next" aria-label="Következő dia">→</button>
   <span class="timer" id="timer" title="T: indítás / megállítás, R: nullázás">10:00</span>
   <button type="button" id="notesBtn" aria-pressed="false" title="Előadói jegyzet (N)">N</button>
