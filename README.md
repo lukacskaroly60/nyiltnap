@@ -22,7 +22,7 @@ Nyisd meg az `index.html` fájlt böngészőben (internet nélkül is működik,
 3. A műhelyből: képek
 4. Innováció és elismerés (3D nyomtatott Gróf Széchenyi-díj szobrok, OTIO)
 5. Erasmus+ „Discover the Green Life with Robots” (Isztambul, 2024 / Székesfehérvár, 2025)
-6. Országos 3D Hídépítő Verseny (2026. november 20., BGSZC Mechatronikai Technikum)
+6. Országos 3D Hídépítő Verseny (2026. november 20., BGSZC Mechatronikai Technikum), fotókkal a 2024-es versenyről
 7. HARMAN Hackathon (2026. november 13–14., Székesfehérvár)
 8. Plakátok: HARMAN Hackathon (hivatalos) és a hídverseny felhívása plakát formában
 9. Zárás

@@ -102,12 +102,12 @@ p{margin:0;max-width:62ch}
 
 /* versenyek */
 .spec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.spec div{padding:.7em .9em;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
-.spec div:nth-child(3n){border-right:0}
-.spec div:nth-last-child(-n+3){border-bottom:0}
+.spec > div{padding:.7em .9em;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.spec > div:nth-child(3n){border-right:0}
+.spec > div:nth-last-child(-n+3){border-bottom:0}
 .spec .v{font:700 clamp(20px,2vw,38px)/1.1 var(--mono);color:var(--cyan);font-variant-numeric:tabular-nums}
 .spec .k{font-size:.72em;color:var(--muted)}
-@media (max-width:600px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}.spec div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}}
+@media (max-width:600px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}.spec > div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}}
 
 .teams{display:flex;flex-wrap:wrap;gap:12px}
 .team{flex:1 1 240px;border:1px solid var(--filament);border-radius:6px;padding:.8em 1em;min-width:0}
@@ -166,6 +166,11 @@ body.presenting .hud:hover{opacity:1}
 .bp-prizes div{border:2px solid #0b1b33;border-radius:4px;padding:5% 2%}
 .bp-prizes strong{display:block;font:900 1.25em/1 var(--display);font-stretch:112%}
 .bp-foot{margin-top:auto;font-size:.82em;color:#3a5a8c;border-top:1px solid #c9d6ea;padding-top:4%}
+.hidfotok{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (min-width:900px){#hidverseny .split{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}}
+.hidfotok img{aspect-ratio:3/4}
+@media (min-width:900px){.hidfotok img{max-height:50vh}}
+@media (max-width:600px){.hidfotok{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -301,32 +306,18 @@ body.presenting .hud:hover{opacity:1}
       <h2>Országos 3D <span class="hl">Hídépítő</span> Verseny</h2>
       <p class="lead">A Budapesti Gépészeti SZC Mechatronikai Technikumában. Kétfős csapatok 3D-ben tervezik és nyomtatják ki a hidat, a döntőn pedig addig terhelik, amíg el nem törik.</p>
       <div class="teams">
-        <div class="team"><b>Széchenyi csapat</b><span>Székesfehérvári SZC Széchenyi István Műszaki Technikum · 2 fő</span></div>
-        <div class="team"><b>Vajda csapat</b><span>Székesfehérvári SZC Vajda János Technikum, Bicske · 2 fő</span></div>
+        <div class="team"><b>Széchenyi</b><span>Széchenyi István Műszaki Technikum, Székesfehérvár · 2 fő</span></div>
+        <div class="team"><b>Vajda</b><span>Vajda János Technikum, Bicske · 2 fő</span></div>
       </div>
     </div>
     <div style="display:grid;gap:14px">
-      <svg class="bridge" viewBox="0 0 640 230" role="img" aria-label="A híd méretei: 500 mm alátámasztási köz, legfeljebb 550 mm hossz és 300 mm magasság">
-        <g fill="none" stroke="#4fd2ff" stroke-width="3">
-          <path d="M70 150 Q320 30 570 150"/>
-          <line x1="40" y1="150" x2="600" y2="150"/>
-          <g stroke-width="1.5" opacity=".8">
-            <line x1="120" y1="150" x2="120" y2="118"/><line x1="170" y1="150" x2="170" y2="96"/><line x1="220" y1="150" x2="220" y2="80"/>
-            <line x1="270" y1="150" x2="270" y2="71"/><line x1="320" y1="150" x2="320" y2="68"/><line x1="370" y1="150" x2="370" y2="71"/>
-            <line x1="420" y1="150" x2="420" y2="80"/><line x1="470" y1="150" x2="470" y2="96"/><line x1="520" y1="150" x2="520" y2="118"/>
-          </g>
-        </g>
-        <polygon points="70,150 55,178 85,178" fill="#ff7a2f"/>
-        <polygon points="570,150 555,178 585,178" fill="#ff7a2f"/>
-        <g stroke="#9db3d8" stroke-width="1.2" fill="#9db3d8">
-          <line x1="70" y1="200" x2="570" y2="200"/>
-          <line x1="70" y1="192" x2="70" y2="208"/><line x1="570" y1="192" x2="570" y2="208"/>
-          <line x1="40" y1="20" x2="600" y2="20" stroke-dasharray="4 4"/>
-        </g>
-        <text x="320" y="222" text-anchor="middle" fill="#eaf1ff" font-family="JetBrains Mono, monospace" font-size="15">500 mm alátámasztási köz</text>
-        <text x="320" y="14" text-anchor="middle" fill="#9db3d8" font-family="JetBrains Mono, monospace" font-size="13">teljes hossz ≤ 550 mm</text>
-        <text x="320" y="56" text-anchor="middle" fill="#ff7a2f" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">terhelés ↓</text>
-      </svg>
+      <div class="photos hidfotok">
+        <figure><img src="img/hidverseny-2024-felszereles.jpg" alt="Diák felszereli a kék 3D nyomtatott hidat a terhelőpadra" loading="lazy"><figcaption>Felszerelés a terhelőpadra</figcaption></figure>
+        <figure><img src="img/hidverseny-2024-hid.jpg" alt="Kék, méhsejtmintás, legyező alakú 3D nyomtatott híd közelről" loading="lazy"><figcaption>Méhsejtes íves híd</figcaption></figure>
+        <figure><img src="img/hidverseny-2024-terheles.jpg" alt="Terhelési próba, a kivetítőn a mért terhelés kilogrammban" loading="lazy"><figcaption>Terhelés, élőben mérve</figcaption></figure>
+        <figure><img src="img/hidverseny-2024-padnal.jpg" alt="Versenyző a terhelőpadnál a kék híddal" loading="lazy"><figcaption>A versenyző a padnál</figcaption></figure>
+      </div>
+      <p class="code">Fotók: 2024-es verseny, BGSZC Mechatronikai Technikum (mechatronika.hu/galeria/47)</p>
       <div class="spec">
         <div><div class="v">≤ 250 g</div><div class="k">tömeg, csavarral együtt</div></div>
         <div><div class="v">500 mm</div><div class="k">alátámasztási köz</div></div>
@@ -337,7 +328,7 @@ body.presenting .hud:hover{opacity:1}
       </div>
     </div>
   </div>
-  <aside class="notes"><b>6:45–8:15</b> Két csapatot viszek: egyet tőlünk, egyet a bicskei Vajda Jánosból. A kihívás: 250 grammból minél nagyobb terhelést bíró híd 500 mm-es fesztávra. Itt a tervezés a lényeg: rácsszerkezet, anyagtakarékosság, sok próbanyomtatás.</aside>
+  <aside class="notes"><b>6:45–8:15</b> Két csapatot viszek: egyet tőlünk, egyet a bicskei Vajda Jánosból. A képek a 2024-es versenyről valók: így néz ki a terhelőpad, a kivetítőn élőben látszik, hány kilót bír a híd. A rekord 255,5 kg volt (2021). A kihívás: 250 grammból minél nagyobb terhelést bíró híd 500 mm-es fesztávra. Itt a tervezés a lényeg: rácsszerkezet, anyagtakarékosság, sok próbanyomtatás.</aside>
 </section>
 
 <!-- 7. HACKATHON -->
