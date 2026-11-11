@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Széchenyi 3D Műhely</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800;125,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: kivetítésre szánt, képernyőnyi „diák” egymás alatt; nyilakkal léptethető, telefonon sima görgetés.
+   Egyetlen sötét, iskolai sötétkék világ (a Széchenyi-logó színei), a kiemelés a 3D-nyomtatószál narancsa. */
+:root{
+  --ink:#071226;        /* háttér: éjkék */
+  --panel:#0e1f3d;      /* kártya */
+  --line:#21406f;       /* vékony vonal, tervrajz-rács */
+  --text:#eaf1ff;       /* fő szöveg */
+  --muted:#9db3d8;      /* másodlagos szöveg */
+  --cyan:#4fd2ff;       /* iskolai kék kiemelés */
+  --filament:#ff7a2f;   /* nyomtatószál-narancs: egyetlen erős szín */
+  --display:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "Consolas", monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ink);color:var(--text);font:400 clamp(16px,1.35vw,24px)/1.5 var(--body);}
+img{max-width:100%;display:block}
+
+/* tervrajz-rács a háttérben */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;opacity:.18}
+
+.slide{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.4vh,32px);
+  padding-block:clamp(20px,4vh,56px);
+  padding-left:max(16px,env(safe-area-inset-left,0px),4vw);padding-right:max(16px,env(safe-area-inset-right,0px),4vw);
+  scroll-snap-align:start;border-bottom:1px solid var(--line)}
+@media (min-width:900px){html{scroll-snap-type:y mandatory}}
+
+.eyebrow{font:700 .72em/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);display:flex;gap:.8em;align-items:center}
+.eyebrow::before{content:"";width:2.2em;height:3px;background:var(--filament)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.02}
+h1{font-weight:900;font-stretch:125%;font-size:clamp(40px,7.2vw,132px);letter-spacing:-.01em;text-transform:uppercase}
+h2{font-weight:800;font-stretch:112%;font-size:clamp(30px,4.2vw,76px)}
+h3{font-weight:800;font-stretch:112%;font-size:clamp(20px,1.7vw,32px)}
+p{margin:0;max-width:62ch}
+.lead{font-size:1.25em;color:var(--text);max-width:48ch}
+.muted{color:var(--muted)}
+.hl{color:var(--filament)}
+
+/* rácsok */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,3vw,56px);align-items:center}
+.split > *{min-width:0}
+@media (max-width:899px){.split{grid-template-columns:1fr}}
+
+.photos{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.photos figure{margin:0;position:relative;overflow:hidden;border-radius:6px;background:var(--panel)}
+.photos img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4}
+.photos.wide img{aspect-ratio:4/3}
+@media (min-width:900px){.photos img{max-height:62vh}.photos.wide img{max-height:32vh}#erasmus .photos img,#innovacio .photos img{max-height:66vh}#csatlakozz .photos img{max-height:22vh}}
+.photos figcaption{position:absolute;left:0;right:0;bottom:0;padding:.5em .7em;font:500 .62em/1.3 var(--mono);color:var(--text);
+  background:linear-gradient(transparent,rgba(7,18,38,.92))}
+@media (max-width:600px){.photos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* címlap */
+.cover{justify-content:space-between}
+.cover-top{display:flex;align-items:center;gap:20px}
+.cover-top img{width:clamp(64px,7vw,120px);border-radius:8px}
+.cover-top div{font:600 .8em/1.35 var(--body);color:var(--muted)}
+.cover-top b{color:var(--text);display:block;font-weight:600}
+.cover h1 .line2{display:block;color:var(--filament)}
+.cover-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end}
+.speaker{font:500 .9em/1.4 var(--body)}
+.speaker b{font-family:var(--display);font-weight:800;font-stretch:112%;font-size:1.4em;display:block}
+.agenda{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.agenda li{font:500 .7em/1 var(--mono);border:1px solid var(--line);padding:.7em .9em;border-radius:99px;color:var(--muted)}
+
+/* tények */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:899px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{border-top:3px solid var(--cyan);padding-top:.6em}
+.fact .num{font:800 clamp(28px,3.2vw,58px)/1 var(--display);font-stretch:112%}
+.fact .lab{font-size:.78em;color:var(--muted)}
+
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;list-style:none;margin:0;padding:0}
+.skills li{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.6em .9em;min-width:0}
+.skills b{display:block;font-family:var(--display);font-stretch:112%;font-weight:800;font-size:1.05em}
+.skills span{font-size:.8em;color:var(--muted)}
+@media (max-width:600px){.skills{grid-template-columns:1fr}}
+
+/* idővonal az Erasmushoz */
+.legs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:700px){.legs{grid-template-columns:1fr}}
+.leg{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1em 1.1em;display:flex;flex-direction:column;gap:.5em;min-width:0}
+.leg .when{font:700 .7em/1 var(--mono);color:var(--filament);letter-spacing:.06em}
+.leg ul{margin:0;padding-left:1.1em;font-size:.8em;line-height:1.4;color:var(--muted)}
+.code{font:500 .7em/1.4 var(--mono);color:var(--muted);overflow-wrap:anywhere}
+
+/* versenyek */
+.spec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.spec div{padding:.7em .9em;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.spec div:nth-child(3n){border-right:0}
+.spec div:nth-last-child(-n+3){border-bottom:0}
+.spec .v{font:700 clamp(20px,2vw,38px)/1.1 var(--mono);color:var(--cyan);font-variant-numeric:tabular-nums}
+.spec .k{font-size:.72em;color:var(--muted)}
+@media (max-width:600px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}.spec div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}}
+
+.teams{display:flex;flex-wrap:wrap;gap:12px}
+.team{flex:1 1 240px;border:1px solid var(--filament);border-radius:6px;padding:.8em 1em;min-width:0}
+.team b{font-family:var(--display);font-stretch:112%;font-weight:800;display:block}
+.team span{font-size:.8em;color:var(--muted)}
+
+.date-badge{display:inline-flex;align-items:baseline;gap:.5em;background:var(--filament);color:var(--ink);padding:.45em .8em;border-radius:4px;
+  font:800 1em/1 var(--display);font-stretch:112%;width:fit-content}
+.date-badge small{font:600 .7em/1 var(--mono)}
+
+/* bridge rajz */
+.bridge{width:100%;height:auto;max-width:640px}
+
+/* zárás */
+.cta h2{font-size:clamp(36px,6vw,110px);font-stretch:125%;font-weight:900;text-transform:uppercase}
+.cta-list{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0}
+.cta-list li{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.7em 1em;font-weight:600}
+
+/* előadói jegyzet + vezérlősáv */
+.notes{display:none}
+body.show-notes .slide .notes{display:block;position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;max-width:min(520px,90vw);
+  background:#fff8e6;color:#1d1a12;border-radius:6px;padding:.9em 1.1em;font:500 .7em/1.45 var(--body);box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:5}
+.notes b{font-family:var(--mono)}
+.hud{position:fixed;z-index:20;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));display:flex;gap:6px;align-items:center;
+  font:600 13px/1 var(--mono);color:var(--muted)}
+.hud button{font:inherit;color:var(--text);background:rgba(14,31,61,.85);border:1px solid var(--line);border-radius:4px;padding:8px 10px;cursor:pointer}
+.hud button:hover,.hud button:focus-visible{border-color:var(--cyan);outline:none}
+.hud .count,.hud .timer{background:rgba(14,31,61,.85);border:1px solid var(--line);border-radius:4px;padding:8px 10px}
+.timer.late{color:var(--filament);border-color:var(--filament)}
+.progress{position:fixed;left:0;top:0;height:4px;background:var(--filament);z-index:21;width:0;transition:width .3s}
+body.presenting .hud{opacity:.25;transition:opacity .2s}
+body.presenting .hud:hover{opacity:1}
+.help{font:500 .65em/1.4 var(--mono);color:var(--muted)}
+@media (max-width:899px){.help{display:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- 1. CÍMLAP -->
+<section class="slide cover" id="cimlap">
+  <div class="cover-top">
+    <img src="img/logo.jpg" alt="A Széchenyi István Műszaki Technikum logója">
+    <div><b>Székesfehérvári SZC Széchenyi István Műszaki Technikum</b>Nyílt nap · 2026. november 11.</div>
+  </div>
+  <h1>Tervezd meg.<span class="line2">Nyomtasd ki.</span></h1>
+  <div class="cover-bottom">
+    <div class="speaker"><b>Lukács Károly</b>oktató, a 3D szakkör vezetője</div>
+    <ul class="agenda">
+      <li>3D szakkör</li><li>Erasmus+ Törökország</li><li>Innováció és díjak</li><li>Országos versenyek most</li>
+    </ul>
+  </div>
+  <p class="help">← → vagy Szóköz: lapozás · F: teljes képernyő · N: jegyzet · T: időzítő</p>
+  <aside class="notes"><b>0:00–0:45</b> Bemutatkozás. „Tíz percben megmutatom, mit csinálunk délutánonként a tanórákon túl: tervezünk, nyomtatunk, versenyzünk, és külföldre is eljutunk.”</aside>
+</section>
+
+<!-- 2. A SZAKKÖR -->
+<section class="slide" id="szakkor">
+  <span class="eyebrow">A 3D szakkör</span>
+  <div class="split">
+    <div style="display:grid;gap:clamp(16px,2.4vh,28px)">
+      <h2>Hetente egyszer, <span class="hl">családias</span> hangulatban</h2>
+      <p class="lead">Itt az ötletből kézzelfogható tárgy lesz. Képernyőn megtervezzük, aztán kinyomtatjuk, kivágjuk vagy beprogramozzuk.</p>
+      <div class="facts">
+        <div class="fact"><div class="num">1×</div><div class="lab">alkalom hetente</div></div>
+        <div class="fact"><div class="num">5–15</div><div class="lab">fő egy alkalommal</div></div>
+        <div class="fact"><div class="num">4</div><div class="lab">terület</div></div>
+        <div class="fact"><div class="num">0</div><div class="lab">előismeret kell</div></div>
+      </div>
+      <ul class="skills">
+        <li><b>3D tervezés</b><span>modellezés számítógépen, alkatrésztől a díjszoborig</span></li>
+        <li><b>3D nyomtatás</b><span>a saját modell kinyomtatása, hibák javítása</span></li>
+        <li><b>Lézergravírozás</b><span>fa makettek, feliratok, egyedi ajándékok</span></li>
+        <li><b>Arduino</b><span>forrasztás, áramkör, programozás, mozgó projektek</span></li>
+      </ul>
+    </div>
+    <div class="photos">
+      <figure><img src="img/szakkor-gepterem.jpg" alt="Diákok a gépteremben tanári segítséggel dolgoznak" loading="lazy"><figcaption>Közös munka a gépteremben</figcaption></figure>
+      <figure><img src="img/lezervagott-makett.jpg" alt="Lányok lézervágott fa alkatrészeket raknak össze" loading="lazy"><figcaption>Lézervágott makett összeszerelése</figcaption></figure>
+      <figure><img src="img/forrasztas.jpg" alt="Diák forraszt a műhelyasztalon" loading="lazy"><figcaption>Forrasztás, Arduino-projekt</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45–2:30</b> Heti egy alkalom, 5–15 fő, mindenki a saját tempójában halad. Nem kell előtudás: az első alkalommal már saját tárgyat terveznek. A nagyobbak segítik a kisebbeket, ezért családias. Négy terület: 3D tervezés, nyomtatás, lézergravírozás, Arduino.</aside>
+</section>
+
+<!-- 3. MIT KÉSZÍTÜNK -->
+<section class="slide" id="muhely">
+  <span class="eyebrow">A műhelyből</span>
+  <h2>Amit a diákok saját kezűleg készítenek</h2>
+  <div class="photos wide" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <figure><img src="img/3d-nyomtato.jpg" alt="3D nyomtató munka közben, zöld alkatrésszel" loading="lazy" style="aspect-ratio:4/3"><figcaption>3D nyomtató munka közben</figcaption></figure>
+    <figure><img src="img/3d-toll.jpg" alt="3D tollal rajzolt drótszerű figurák: szamár és kocsi" loading="lazy"><figcaption>3D tollal rajzolt térbeli figurák</figcaption></figure>
+    <figure><img src="img/elektronika.jpg" alt="Két diák elektronikai projekten dolgozik" loading="lazy"><figcaption>Elektronika és Arduino</figcaption></figure>
+    <figure><img src="img/kozos-alkotas-2.jpg" alt="Sok diák 3D nyomtatott piros elemekkel dolgozik egy nagy asztalnál" loading="lazy"><figcaption>Közös alkotás 3D-nyomtatott elemekkel</figcaption></figure>
+    <figure><img src="img/nyari-alkotas.jpg" alt="Gyerekek alkotnak egy világos teremben" loading="lazy"><figcaption>Nyári alkotóműhely</figcaption></figure>
+    <figure><img src="img/festes.jpg" alt="Lányok kinyomtatott tárgyakat festenek" loading="lazy"><figcaption>A kinyomtatott tárgyak kifestése</figcaption></figure>
+  </div>
+  <aside class="notes"><b>2:30–3:30</b> Képek végig: nyomtató, 3D toll, forrasztás. A tárgyak hazavihetők. Nyáron alkotóműhelyt is tartottunk, ott festettük is a nyomatokat.</aside>
+</section>
+
+<!-- 4. DÍJAK, INNOVÁCIÓ -->
+<section class="slide" id="innovacio">
+  <span class="eyebrow">Innováció és elismerés</span>
+  <div class="split">
+    <div style="display:grid;gap:clamp(14px,2.2vh,26px)">
+      <h2>A szakkör nyomtatja az iskola <span class="hl">díjait</span> is</h2>
+      <p class="lead">A Gróf Széchenyi-díj bronz, ezüst és arany fokozatának mellszobrait mi terveztük és nyomtattuk 3D-ben.</p>
+      <div class="leg">
+        <span class="when">ORSZÁGOS TUDOMÁNYOS ÉS INNOVÁCIÓS OLIMPIA (OTIO)</span>
+        <h3>3. hely az országos döntőben</h3>
+        <p class="muted" style="font-size:.86em">Kreitzer Ádám és Preseka Zoltán városi környezetre tervezett, saját építésű önvezető mopedautóval. Iskolánk bekerült az ország 20 legsikeresebb innovatív középiskolája közé.</p>
+      </div>
+      <p class="muted" style="font-size:.8em">Az innovációs versenyeken a diákok saját ötletet visznek végig: terv, prototípus, bemutatás a zsűri előtt.</p>
+    </div>
+    <div class="photos wide" style="grid-template-columns:1fr">
+      <figure><img src="img/szechenyi-dij.jpg" alt="3D nyomtatott fehér Széchenyi-mellszobrok bronz, ezüst és arany fokozat táblával" loading="lazy" style="aspect-ratio:16/10"><figcaption>3D nyomtatott Gróf Széchenyi-díj szobrok</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes"><b>3:30–4:45</b> A díjszobrokat a szakkörösök tervezték és nyomtatták: amit itt tanulnak, azt az iskola használja is. OTIO: 3. hely, önvezető mopedautó. Lényeg: saját ötlet → prototípus → zsűri.</aside>
+</section>
+
+<!-- 5. ERASMUS -->
+<section class="slide" id="erasmus">
+  <span class="eyebrow">Erasmus+ · Törökország</span>
+  <div class="split">
+    <div style="display:grid;gap:clamp(14px,2.2vh,24px)">
+      <h2>Discover the Green Life <span class="hl">with Robots</span></h2>
+      <p class="lead">Kétéves partnerség az isztambuli Gülizar Zeki Obdan Anadolu Lisesivel. Téma: robotika, okos mezőgazdaság, zöldebb jövő.</p>
+      <div class="legs">
+        <div class="leg">
+          <span class="when">2024. SZEPT. 26. – OKT. 1. · ISZTAMBUL</span>
+          <h3>Mi utaztunk</h3>
+          <ul>
+            <li>partneriskola Pendikben, török diákok</li>
+            <li>üvegházak, okos öntözés, nanotechnológiai labor</li>
+            <li>Gebzei Műszaki Egyetem, drónbemutató</li>
+            <li>kajakozás a Márvány-tengeren, nevezetességek, török konyha</li>
+          </ul>
+        </div>
+        <div class="leg">
+          <span class="when">2025 TAVASZ · SZÉKESFEHÉRVÁR</span>
+          <h3>Ők jöttek hozzánk</h3>
+          <ul>
+            <li>3D tervezés és nyomtatás a szakkörben</li>
+            <li>robotika az Óbudai Egyetem Alba Regia Karán</li>
+            <li>Budapest nevezetességei és múzeumai</li>
+            <li>fehérvári belváros, első barátságok</li>
+          </ul>
+        </div>
+      </div>
+      <p class="code">Projektszám: 2023-1-HU01-KA210-VET-000156243</p>
+    </div>
+    <div class="photos wide" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <figure><img src="img/erasmus-isztambul.jpg" alt="Parafatábla az isztambuli út fotóival és török zászlóval" loading="lazy" style="aspect-ratio:3/4"><figcaption>Isztambuli tabló</figcaption></figure>
+      <figure><img src="img/erasmus-fehervar.jpg" alt="Tabló a török diákok fehérvári látogatásáról" loading="lazy" style="aspect-ratio:3/4"><figcaption>A török diákok Fehérváron</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes"><b>4:45–6:45</b> Isztambulban üvegházakat, okos mezőgazdaságot, nanotech labort, Gebzei Műszaki Egyetemet láttunk, közben barátságok születtek. Tavasszal a török diákok jöttek: a szakkörben 3D-ben terveztek és nyomtattak velünk. Az angol a közös nyelv, és a szakkörös tudás nyitja ki az utat.</aside>
+</section>
+
+<!-- 6. HÍDVERSENY -->
+<section class="slide" id="hidverseny">
+  <span class="eyebrow">Most készülünk · 1/2</span>
+  <div class="split">
+    <div style="display:grid;gap:clamp(14px,2.2vh,24px)">
+      <span class="date-badge">2026. november 20. <small>10:00 · BUDAPEST</small></span>
+      <h2>Országos 3D <span class="hl">Hídépítő</span> Verseny</h2>
+      <p class="lead">A Budapesti Gépészeti SZC Mechatronikai Technikumában. Kétfős csapatok 3D-ben tervezik és nyomtatják ki a hidat, a döntőn pedig addig terhelik, amíg el nem törik.</p>
+      <div class="teams">
+        <div class="team"><b>Széchenyi csapat</b><span>Székesfehérvári SZC Széchenyi István Műszaki Technikum · 2 fő</span></div>
+        <div class="team"><b>Vajda csapat</b><span>Székesfehérvári SZC Vajda János Technikum, Bicske · 2 fő</span></div>
+      </div>
+    </div>
+    <div style="display:grid;gap:14px">
+      <svg class="bridge" viewBox="0 0 640 230" role="img" aria-label="A híd méretei: 500 mm alátámasztási köz, legfeljebb 550 mm hossz és 300 mm magasság">
+        <g fill="none" stroke="#4fd2ff" stroke-width="3">
+          <path d="M70 150 Q320 30 570 150"/>
+          <line x1="40" y1="150" x2="600" y2="150"/>
+          <g stroke-width="1.5" opacity=".8">
+            <line x1="120" y1="150" x2="120" y2="118"/><line x1="170" y1="150" x2="170" y2="96"/><line x1="220" y1="150" x2="220" y2="80"/>
+            <line x1="270" y1="150" x2="270" y2="71"/><line x1="320" y1="150" x2="320" y2="68"/><line x1="370" y1="150" x2="370" y2="71"/>
+            <line x1="420" y1="150" x2="420" y2="80"/><line x1="470" y1="150" x2="470" y2="96"/><line x1="520" y1="150" x2="520" y2="118"/>
+          </g>
+        </g>
+        <polygon points="70,150 55,178 85,178" fill="#ff7a2f"/>
+        <polygon points="570,150 555,178 585,178" fill="#ff7a2f"/>
+        <g stroke="#9db3d8" stroke-width="1.2" fill="#9db3d8">
+          <line x1="70" y1="200" x2="570" y2="200"/>
+          <line x1="70" y1="192" x2="70" y2="208"/><line x1="570" y1="192" x2="570" y2="208"/>
+          <line x1="40" y1="20" x2="600" y2="20" stroke-dasharray="4 4"/>
+        </g>
+        <text x="320" y="222" text-anchor="middle" fill="#eaf1ff" font-family="JetBrains Mono, monospace" font-size="15">500 mm alátámasztási köz</text>
+        <text x="320" y="14" text-anchor="middle" fill="#9db3d8" font-family="JetBrains Mono, monospace" font-size="13">teljes hossz ≤ 550 mm</text>
+        <text x="320" y="56" text-anchor="middle" fill="#ff7a2f" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700">terhelés ↓</text>
+      </svg>
+      <div class="spec">
+        <div><div class="v">≤ 250 g</div><div class="k">tömeg, csavarral együtt</div></div>
+        <div><div class="v">500 mm</div><div class="k">alátámasztási köz</div></div>
+        <div><div class="v">≤ 550 mm</div><div class="k">hossz</div></div>
+        <div><div class="v">≤ 300 mm</div><div class="k">magasság</div></div>
+        <div><div class="v">60–100 mm</div><div class="k">szélesség</div></div>
+        <div><div class="v">2 fő</div><div class="k">csapatonként</div></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>6:45–8:15</b> Két csapatot viszek: egyet tőlünk, egyet a bicskei Vajda Jánosból. A kihívás: 250 grammból minél nagyobb terhelést bíró híd 500 mm-es fesztávra. Itt a tervezés a lényeg: rácsszerkezet, anyagtakarékosság, sok próbanyomtatás.</aside>
+</section>
+
+<!-- 7. HACKATHON -->
+<section class="slide" id="hackathon">
+  <span class="eyebrow">Most készülünk · 2/2</span>
+  <div class="split">
+    <div style="display:grid;gap:clamp(14px,2.2vh,24px)">
+      <span class="date-badge">2026. november 13–14. <small>24 ÓRA · SZÉKESFEHÉRVÁR</small></span>
+      <h2>HARMAN <span class="hl">Hackathon</span></h2>
+      <p class="lead">Junior Engineers Camp: 24 órás ötlet- és prototípusfejlesztő verseny középiskolásoknak és egyetemistáknak.</p>
+      <p class="muted">Szervezők: Óbudai Egyetem Alba Regia Kar, Harman Becker Kft. és Székesfehérvár városa. Helyszín: Sóstói Stadion.</p>
+    </div>
+    <div style="display:grid;gap:12px">
+      <div class="leg"><span class="when">AZ IDEI FELADAT</span><h3>Intelligens terek öt év múlva</h3><p class="muted" style="font-size:.86em">Autó, otthon, iskola, kórház vagy egész város: a csapat választja ki, milyen „okos teret” álmodik meg, és egy rövidfilmmel jelentkezett.</p></div>
+      <div class="spec" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div><div class="v">24 h</div><div class="k">non-stop fejlesztés</div></div>
+        <div><div class="v">3–4 fő</div><div class="k">csapatonként</div></div>
+        <div><div class="v">6</div><div class="k">középiskolás döntős csapat</div></div>
+      </div>
+      <p class="muted" style="font-size:.8em">A díjak között JBL hangtechnika szerepel. A szakkörben tanult Arduino- és 3D-tudás itt közvetlenül prototípussá válik.</p>
+    </div>
+  </div>
+  <aside class="notes"><b>8:15–9:15</b> Két nap múlva indul. 24 óra alatt kell ötletből működő prototípust építeni. Itt jön ki igazán, mire jó a szakkör: Arduino, 3D nyomtatott ház, csapatmunka.</aside>
+</section>
+
+<!-- 8. ZÁRÁS -->
+<section class="slide cta" id="csatlakozz">
+  <span class="eyebrow">Gyere közénk</span>
+  <h2>Hozd az ötleted,<br><span class="hl">a többit megtanuljuk</span></h2>
+  <ul class="cta-list">
+    <li>heti egy szakköri délután</li>
+    <li>előismeret nem kell</li>
+    <li>saját tárgyak, saját projektek</li>
+    <li>országos versenyek</li>
+    <li>Erasmus+ külföldi utak</li>
+  </ul>
+  <div class="photos wide" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px">
+    <figure><img src="img/kozos-alkotas-1.jpg" alt="Diákok egy asztal körül 3D nyomtatott elemekkel" loading="lazy" style="aspect-ratio:16/9"><figcaption>Közös alkotás</figcaption></figure>
+    <figure><img src="img/szakkor-gepterem.jpg" alt="Szakkör a gépteremben" loading="lazy" style="aspect-ratio:16/9"><figcaption>Szakkör</figcaption></figure>
+  </div>
+  <p class="speaker"><b>Lukács Károly</b>Keressetek a nyílt nap után is, szívesen megmutatom a műhelyt!</p>
+  <aside class="notes"><b>9:15–10:00</b> Kérdések. Meghívás: a nyílt nap után meg lehet nézni a műhelyt és a nyomtatókat.</aside>
+</section>
+
+<nav class="hud" aria-label="Vezérlés">
+  <button type="button" id="prev" aria-label="Előző dia">←</button>
+  <span class="count" id="count">1 / 8</span>
+  <button type="button" id="next" aria-label="Következő dia">→</button>
+  <span class="timer" id="timer" title="T: indítás / megállítás, R: nullázás">10:00</span>
+  <button type="button" id="notesBtn" aria-pressed="false" title="Előadói jegyzet (N)">N</button>
+  <button type="button" id="fsBtn" title="Teljes képernyő (F)">⛶</button>
+</nav>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var count=document.getElementById('count'),prog=document.getElementById('progress');
+  var cur=0;
+  function current(){
+    var mid=window.innerHeight/2,best=0;
+    slides.forEach(function(s,i){var r=s.getBoundingClientRect();if(r.top<=mid)best=i;});
+    return best;
+  }
+  function update(){cur=current();count.textContent=(cur+1)+' / '+slides.length;prog.style.width=((cur+1)/slides.length*100)+'%';}
+  function go(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+  window.addEventListener('scroll',update,{passive:true});update();
+  document.getElementById('prev').onclick=function(){go(current()-1)};
+  document.getElementById('next').onclick=function(){go(current()+1)};
+
+  // időzítő: 10 perces visszaszámlálás
+  var timerEl=document.getElementById('timer'),left=600,run=false,iv=null;
+  function draw(){var a=Math.abs(left),m=Math.floor(a/60),s=a%60;timerEl.textContent=(left<0?'+':'')+m+':'+(s<10?'0':'')+s;timerEl.classList.toggle('late',left<=60);}
+  function toggleTimer(){run=!run;if(run){iv=setInterval(function(){left--;draw();},1000);}else{clearInterval(iv);}}
+  function resetTimer(){left=600;draw();}
+  timerEl.onclick=toggleTimer;
+
+  var notesBtn=document.getElementById('notesBtn');
+  function toggleNotes(){var on=document.body.classList.toggle('show-notes');notesBtn.setAttribute('aria-pressed',on);}
+  notesBtn.onclick=toggleNotes;
+
+  function toggleFs(){
+    try{
+      if(!document.fullscreenElement){var p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){});document.body.classList.add('presenting');}
+      else{document.exitFullscreen();document.body.classList.remove('presenting');}
+    }catch(e){}
+  }
+  document.getElementById('fsBtn').onclick=toggleFs;
+  document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement)document.body.classList.remove('presenting');});
+
+  document.addEventListener('keydown',function(e){
+    if(e.target.closest&&e.target.closest('input,textarea'))return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '){e.preventDefault();go(current()+1);if(!run&&cur===0&&left===600)toggleTimer();}
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'){e.preventDefault();go(current()-1);}
+    else if(k==='Home'){e.preventDefault();go(0);}
+    else if(k==='End'){e.preventDefault();go(slides.length-1);}
+    else if(k==='f'||k==='F'){toggleFs();}
+    else if(k==='n'||k==='N'){toggleNotes();}
+    else if(k==='t'||k==='T'){toggleTimer();}
+    else if(k==='r'||k==='R'){resetTimer();}
+  });
+})();
+</script>
+</body>
+</html>
