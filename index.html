@@ -166,11 +166,12 @@ body.presenting .hud:hover{opacity:1}
 .bp-prizes div{border:2px solid #0b1b33;border-radius:4px;padding:5% 2%}
 .bp-prizes strong{display:block;font:900 1.25em/1 var(--display);font-stretch:112%}
 .bp-foot{margin-top:auto;font-size:.82em;color:#3a5a8c;border-top:1px solid #c9d6ea;padding-top:4%}
-.hidfotok{grid-template-columns:repeat(4,minmax(0,1fr))}
+.hidfotok{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)}
 @media (min-width:900px){#hidverseny .split{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}}
 .hidfotok img{aspect-ratio:3/4}
+.hidfotok .hf-main img{aspect-ratio:auto;height:100%}
 @media (min-width:900px){.hidfotok img{max-height:50vh}}
-@media (max-width:600px){.hidfotok{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.hidfotok{grid-template-columns:repeat(2,minmax(0,1fr))}.hidfotok .hf-main{grid-column:1/-1}.hidfotok .hf-main img{aspect-ratio:4/3}}
 </style>
 </head>
 <body>
@@ -312,10 +313,9 @@ body.presenting .hud:hover{opacity:1}
     </div>
     <div style="display:grid;gap:14px">
       <div class="photos hidfotok">
-        <figure><img src="img/hidverseny-2024-felszereles.jpg" alt="Diák felszereli a kék 3D nyomtatott hidat a terhelőpadra" loading="lazy"><figcaption>Felszerelés a terhelőpadra</figcaption></figure>
-        <figure><img src="img/hidverseny-2024-hid.jpg" alt="Kék, méhsejtmintás, legyező alakú 3D nyomtatott híd közelről" loading="lazy"><figcaption>Méhsejtes íves híd</figcaption></figure>
+        <figure class="hf-main"><img src="img/hidverseny-2024-ives-hid.jpg" alt="Kék, küllős íves 3D nyomtatott híd a terhelőpadon, mögötte nézők" loading="lazy"><figcaption>Íves, küllős híd a terhelőpadon</figcaption></figure>
+        <figure><img src="img/hidverseny-2024-felszereles.jpg" alt="Diák felszereli a kék 3D nyomtatott hidat a terhelőpadra" loading="lazy"><figcaption>Felszerelés</figcaption></figure>
         <figure><img src="img/hidverseny-2024-terheles.jpg" alt="Terhelési próba, a kivetítőn a mért terhelés kilogrammban" loading="lazy"><figcaption>Terhelés, élőben mérve</figcaption></figure>
-        <figure><img src="img/hidverseny-2024-padnal.jpg" alt="Versenyző a terhelőpadnál a kék híddal" loading="lazy"><figcaption>A versenyző a padnál</figcaption></figure>
       </div>
       <p class="code">Fotók: 2024-es verseny, BGSZC Mechatronikai Technikum (mechatronika.hu/galeria/47)</p>
       <div class="spec">
