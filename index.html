@@ -172,6 +172,19 @@ body.presenting .hud:hover{opacity:1}
 .hidfotok .hf-main img{aspect-ratio:auto;height:100%}
 @media (min-width:900px){.hidfotok img{max-height:50vh}}
 @media (max-width:600px){.hidfotok{grid-template-columns:repeat(2,minmax(0,1fr))}.hidfotok .hf-main{grid-column:1/-1}.hidfotok .hf-main img{aspect-ratio:4/3}}
+.results{display:grid;gap:10px}
+.result{display:flex;align-items:center;gap:16px;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:.6em 1em;min-width:0}
+.result .place{font:900 clamp(30px,3vw,56px)/1 var(--display);font-stretch:125%;min-width:2.2em}
+.result.gold{border-color:var(--filament)}
+.result.gold .place{color:var(--filament)}
+.result.bronze .place{color:var(--cyan)}
+.result b{display:block;font:800 1.15em/1.15 var(--display);font-stretch:112%}
+.result span:not(.place){font:500 .72em/1.3 var(--mono);color:var(--muted)}
+.hackfotok{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hackfotok .hk-main{grid-column:1/-1}
+.hackfotok img{aspect-ratio:4/3}
+.hackfotok .hk-main img{aspect-ratio:16/9}
+@media (min-width:900px){.hackfotok .hk-main img{max-height:42vh}.hackfotok img{max-height:26vh}#hackathon .split{grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr)}}
 </style>
 </head>
 <body>
@@ -187,7 +200,7 @@ body.presenting .hud:hover{opacity:1}
   <div class="cover-bottom">
     <div class="speaker"><b>Lukács Károly</b>oktató, a 3D szakkör vezetője</div>
     <ul class="agenda">
-      <li>3D szakkör</li><li>Erasmus+ Törökország</li><li>Innováció és díjak</li><li>Országos versenyek most</li>
+      <li>3D szakkör</li><li>Erasmus+ Törökország</li><li>Innováció és díjak</li><li>Versenyek és eredmények</li>
     </ul>
   </div>
   <p class="help">← → vagy Szóköz: lapozás · F: teljes képernyő · N: jegyzet · T: időzítő</p>
@@ -300,7 +313,7 @@ body.presenting .hud:hover{opacity:1}
 
 <!-- 6. HÍDVERSENY -->
 <section class="slide" id="hidverseny">
-  <span class="eyebrow">Most készülünk · 1/2</span>
+  <span class="eyebrow">Most készülünk</span>
   <div class="split">
     <div style="display:grid;gap:clamp(14px,2.2vh,24px)">
       <span class="date-badge">2026. november 20. <small>10:00 · BUDAPEST</small></span>
@@ -333,25 +346,25 @@ body.presenting .hud:hover{opacity:1}
 
 <!-- 7. HACKATHON -->
 <section class="slide" id="hackathon">
-  <span class="eyebrow">Most készülünk · 2/2</span>
+  <span class="eyebrow">Friss eredmény</span>
   <div class="split">
     <div style="display:grid;gap:clamp(14px,2.2vh,24px)">
-      <span class="date-badge">2026. november 13–14. <small>24 ÓRA · SZÉKESFEHÉRVÁR</small></span>
-      <h2>HARMAN <span class="hl">Hackathon</span></h2>
-      <p class="lead">Junior Engineers Camp: 24 órás ötlet- és prototípusfejlesztő verseny középiskolásoknak és egyetemistáknak.</p>
-      <p class="muted">Szervezők: Óbudai Egyetem Alba Regia Kar, Harman Becker Kft. és Székesfehérvár városa. Helyszín: Sóstói Stadion.</p>
-    </div>
-    <div style="display:grid;gap:12px">
-      <div class="leg"><span class="when">AZ IDEI FELADAT</span><h3>Intelligens terek öt év múlva</h3><p class="muted" style="font-size:.86em">Autó, otthon, iskola, kórház vagy egész város: a csapat választja ki, milyen „okos teret” álmodik meg, és egy rövidfilmmel jelentkezett.</p></div>
-      <div class="spec" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-        <div><div class="v">24 h</div><div class="k">non-stop fejlesztés</div></div>
-        <div><div class="v">3–4 fő</div><div class="k">csapatonként</div></div>
-        <div><div class="v">6</div><div class="k">középiskolás döntős csapat</div></div>
+      <span class="date-badge">2026. november 13–14. <small>24 ÓRA · SÓSTÓI STADION</small></span>
+      <h2>HARMAN Hackathon: <span class="hl">I. és III. hely</span></h2>
+      <p class="lead">24 óra alatt ötletből működő prototípus. Az idei téma: intelligens terek öt év múlva.</p>
+      <div class="results">
+        <div class="result gold"><span class="place">I.</span><div><b>G-niuszok</b><span>60 000 HARMAN dollár</span></div></div>
+        <div class="result bronze"><span class="place">III.</span><div><b>Antipolution</b><span>40 000 HARMAN dollár</span></div></div>
       </div>
-      <p class="muted" style="font-size:.8em">A díjak között JBL hangtechnika szerepel. A szakkörben tanult Arduino- és 3D-tudás itt közvetlenül prototípussá válik.</p>
+      <p class="muted" style="font-size:.8em">A HARMAN dollárt a csapatok JBL és Harman Kardon termékekre váltották. Szervezők: Óbudai Egyetem Alba Regia Kar, Harman Becker Kft., Székesfehérvár városa.</p>
+    </div>
+    <div class="photos hackfotok">
+      <figure class="hk-main"><img src="img/harman-2026-1-hely.jpg" alt="Az első helyezett G-niuszok csapat oklevéllel és 60 000 HARMAN dolláros csekkel" loading="lazy"><figcaption>I. hely: G-niuszok</figcaption></figure>
+      <figure><img src="img/harman-2026-3-hely.jpg" alt="A harmadik helyezett Antipolution csapat oklevéllel és 40 000 HARMAN dolláros csekkel" loading="lazy"><figcaption>III. hely: Antipolution</figcaption></figure>
+      <figure><img src="img/harman-2026-nyeremenyek.jpg" alt="A győztes csapat tagjai JBL és Harman Kardon termékek dobozaival" loading="lazy"><figcaption>A nyeremények: JBL és Harman Kardon</figcaption></figure>
     </div>
   </div>
-  <aside class="notes"><b>8:15–9:15</b> Két nap múlva indul. 24 óra alatt kell ötletből működő prototípust építeni. Itt jön ki igazán, mire jó a szakkör: Arduino, 3D nyomtatott ház, csapatmunka.</aside>
+  <aside class="notes"><b>8:15–9:15</b> Múlt héten zajlott: két csapatunk is dobogós lett. Első hely a G-niuszok, harmadik az Antipolution. 24 óra alatt kellett ötletből működő prototípust építeni. Itt jön ki igazán, mire jó a szakkör: Arduino, 3D nyomtatott ház, csapatmunka. A nyeremény HARMAN dollár volt, ebből hangszórót, lemezjátszót választottak.</aside>
 </section>
 
 <!-- 8. PLAKÁTOK -->
