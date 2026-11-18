@@ -1,6 +1,6 @@
 # Széchenyi 3D Műhely – nyílt napi bemutató
 
-Kivetíthető weboldal a Székesfehérvári SZC Széchenyi István Műszaki Technikum nyílt napjára (2026. november 11.).
+Kivetíthető weboldal a Székesfehérvári SZC Széchenyi István Műszaki Technikum nyílt napjára (2026. november 11. és 18.).
 Egy kb. 10 perces előadáshoz készült a 3D szakkörről, az Erasmus+ török partnerségről és az aktuális országos versenyekről.
 
 ## Használat
